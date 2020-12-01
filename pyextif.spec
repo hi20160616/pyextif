@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['Z:\\Git\\ucrt\\DLLs\\x86'],  #  for win10
+             pathex=['Z:\\Git\\ucrt\\DLLs\\x64'],  #  for win10
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

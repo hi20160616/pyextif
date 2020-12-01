@@ -48,13 +48,13 @@ def degree2float(degree: str) -> float:
     exchange degree style numbers to float style
     """
 
-    if "°" in degree:
-        degree = degree.replace('\'', '′').replace('\"', '″')
-        d, dd = degree.split('°')
+    if "d" in degree:
+        degree = degree.replace('°', 'd').replace('′', '\'').replace('″', '\"')
+        d, dd = degree.split('d')
         d = float(d) if d else 0
-        m, mm = dd.split('′')
+        m, mm = dd.split('\'')
         m = float(m) if m else 0
-        s = mm.split('″')[0]
+        s = mm.split('\"')[0]
         s = float(s) if s else 0
         return d + m/60 + s/3600
     else:

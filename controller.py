@@ -72,16 +72,16 @@ class Controller:
                 continue
             # rename tif file only
             newtifpath = os.path.join(tif.dir, prefix + tif.filename)
-            print(f"[{tif.filepath}] => should rename as => [{newtifpath}]")
-            # os.rename(tif.filepath, newtifpath)
+            # print(f"[{tif.filepath}] => should rename as => [{newtifpath}]")
+            os.rename(tif.filepath, newtifpath)
 
             # rename siblings
             tif.set_siblings()
             for s in tif.siblings:
                 oldpath = os.path.join(tif.dir, s)
                 newpath = os.path.join(tif.dir, prefix + s)
-                print(f"[{oldpath}] => should rename as => [{newpath}]")
-                # os.rename(oldpath, newpath)
+                # print(f"[{oldpath}] => should rename as => [{newpath}]")
+                os.rename(oldpath, newpath)
 
             # rename tif dir, if it's name is same as tif file.
             tiffoldername = os.path.split(tif.dir)[1]
@@ -89,5 +89,5 @@ class Controller:
             if tiffoldername == puretifname:
                 oldpath = tif.dir
                 newpath = tif.dir.replace(puretifname, prefix + puretifname)
-                print(f"[{oldpath}] => should rename as => [{newpath}]")
-                # os.rename(oldpath, newpath)
+                # print(f"[{oldpath}] => should rename as => [{newpath}]")
+                os.rename(oldpath, newpath)
