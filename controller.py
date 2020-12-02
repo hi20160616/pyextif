@@ -41,7 +41,8 @@ class Controller:
                     p = lonlat2geo.lonlat2geo_static(
                         3857, p1, p2)  # TODO: 坐标系3857是否会发生变化？
                     wkt += p + ', '
-                wkt = f"POLYGON (({wkt[:-2]}))"
+                wkt = f"POINT ({wkt[:-2]})" if len(
+                    points) == 1 else f"POLYGON (({wkt[:-2]}))"
                 self.areas.append([name, wkt.strip()])
 
     def set_tifs_area(self):
