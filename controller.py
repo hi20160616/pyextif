@@ -29,9 +29,11 @@ class Controller:
     def read_cfg(self, cfg):
         with open(cfg) as f:
             for line in f:
+                if not line.strip():
+                    continue
                 wkt = ""
                 name, poly = line.split(':')
-                points = poly.strip().split('|')
+                points = poly.strip().split('|') if poly else []
                 for p in points:
                     p1, p2 = p.split(',')
                     p1 = lonlat2geo.degree2float(p1.strip())
@@ -40,7 +42,6 @@ class Controller:
                         3857, p1, p2)  # TODO: 坐标系3857是否会发生变化？
                     wkt += p + ', '
                 wkt = f"POLYGON (({wkt[:-2]}))"
-                print(wkt)
                 self.areas.append([name, wkt.strip()])
 
     def set_tifs_area(self):
@@ -64,6 +65,12 @@ class Controller:
             tif.dataset_close()
 
     def rename(self):
+        """rename tif name if shot,
+        also contain siblings files and folder that have same name.
+
+        TODO: if areanames is contained, not add the prefix to the files.
+        """
+
         for tif in self.tifs:
             prefix = ""
             for area in tif.areanames:
