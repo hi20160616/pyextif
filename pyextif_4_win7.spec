@@ -4,7 +4,8 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\wedojava\\anaconda3\\Lib\\site-packages\\osgeo'],  #  for win10
+             pathex=[''],
+             datas=[('.\\lib\\site-packages\\osgeo\\data\\proj', 'proj')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=['hook.py'],
