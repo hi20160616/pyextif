@@ -1,4 +1,5 @@
 import os
 import sys
+from os import path
 
-os.environ['PROJ_LIB'] = r'C:\Users\wedojava\anaconda3\Lib\site-packages\osgeo\data\proj'
+os.environ['PROJ_LIB'] = r'.\proj'
