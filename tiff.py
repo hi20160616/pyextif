@@ -1,4 +1,5 @@
 import os
+import lonlat2geo
 from osgeo import gdal, ogr
 
 
@@ -14,7 +15,7 @@ class Tiff:
         self.siblings = []
         self.wkt = None
 
-    def dataset(self):
+    def dataset_open(self):
         """Open tif file set `self.ds` and return dataset."""
 
         try:
@@ -28,8 +29,27 @@ class Tiff:
     def dataset_close(self):
         self.ds = None
 
+    def gdalinfo(self):
+        print(
+            f"Driver: {self.ds.GetDriver().ShortName} / {self.ds.GetDriver().LongName}")
+        print(f"Size is {self.ds.RasterXSize}, {self.ds.RasterYSize}")
+        print(f"Bands = %d" % self.ds.RasterCount)
+        print(f"Coordinate System is: {self.ds.GetProjectionRef ()}")
+        print(f"GetGeoTransform() = {self.ds.GetGeoTransform ()}")
+        print(f"GetMetadata() = {self.ds.GetMetadata ()}")
+
+    def points2wkt(self, points):
+        wkt = ""
+        for p in points:
+            p1, p2 = p.split(',')
+            p1 = lonlat2geo.degree2float(p1.strip())
+            p2 = lonlat2geo.degree2float(p2.strip())
+            p = lonlat2geo.lonlat2geo_tif(self.ds, p1, p2)
+            wkt += f'{p[0]} {p[1]}' + ', '
+        return f"POINT ({wkt[:-2]})" if len(points) == 1 else f"POLYGON (({wkt[:-2]}))"
+
     def make_wkt_geom(self):
-        """This should be used after dataset get done."""
+        """This will get geo wkt string, and only be used after dataset open success."""
 
         def make_wkt(points):
             pp = ""
@@ -38,7 +58,7 @@ class Tiff:
             pp = pp[:-2]
             return f"POLYGON (({pp}))"
 
-        ds = self.dataset()
+        ds = self.ds
         ulx, xres, _, uly, _, yres = ds.GetGeoTransform()
         lrx = ulx + (ds.RasterXSize * xres)  # low right x
         lry = uly + (ds.RasterYSize * yres)  # low right y
