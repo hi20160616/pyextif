@@ -44,7 +44,7 @@ class Tiff:
             p1, p2 = p.split(',')
             p1 = lonlat2geo.degree2float(p1.strip())
             p2 = lonlat2geo.degree2float(p2.strip())
-            p = lonlat2geo.lonlat2geo_tif(self.ds, p1, p2)
+            p = lonlat2geo.lonlat2geo_ds(self.ds, p1, p2)
             wkt += f'{p[0]} {p[1]}' + ', '
         return f"POINT ({wkt[:-2]})" if len(points) == 1 else f"POLYGON (({wkt[:-2]}))"
 

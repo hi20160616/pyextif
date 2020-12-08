@@ -1,3 +1,4 @@
+import osgeo
 from osgeo import gdal
 from osgeo import osr
 import numpy as np
@@ -38,6 +39,9 @@ def lonlat2geo(dataset, lon, lat):
     :return: 经纬度坐标(lon, lat)对应的投影坐标
     '''
     prosrs, geosrs = getSRSPair(dataset)
+    if int(osgeo.__version__[0]) >= 3:
+        # GDAL 3 changes axis order: https://github.com/OSGeo/gdal/issues/1546
+        geosrs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
     ct = osr.CoordinateTransformation(geosrs, prosrs)
     coords = ct.TransformPoint(lat, lon)
     return coords[:2]
