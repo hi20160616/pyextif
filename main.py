@@ -9,8 +9,8 @@ def main():
     # c = Controller(cfg="./example/config.txt")
     src = input("[+] Input tiff files dir(default is \".\"): ")
     cfg = input("[+] Input config file path(default is \"./config.txt\"): ")
-    src = "./example/test"
-    cfg = "./example/test/config.txt"
+    # src = "./example/test"
+    # cfg = "./example/test/config.txt"
     c = Controller(src, cfg)
     c.read_cfg(c.cfg)
     c.scan_tifs(c.src)

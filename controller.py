@@ -57,8 +57,8 @@ class Controller:
             poly2 = ogr.CreateGeometryFromWkt(wkt2)
             intersection = poly1.Intersection(poly2)
             if "EMPTY" in intersection.ExportToWkt():
-                # print("wkt1: " + wkt1)  # just for debug
-                # print("wkt2: " + wkt2)  # just for debug
+                print("wkt1: " + wkt1)  # just for debug
+                print("wkt2: " + wkt2)  # just for debug
                 return False
             else:
                 return True
